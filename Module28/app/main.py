@@ -30,3 +30,10 @@ def update_existing_item(item_id: int, item: Item, api_key: str = Depends(get_ap
     if update_existing_item is None:
         raise HTTPException(status_code=404, detail="Item not found")
     return updated_item
+
+@app.delete("/items/{item_id}")
+def delete_existing_item(item_id: int, api_key: str = Depends(get_api_keys)):
+    result = delete_item(item_id)
+    if not result:
+        raise HTTPException(status_code=404, detail="Item not found")
+    return {"detail": "Item deleted successfully"}
